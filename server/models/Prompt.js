@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const promptSchema = new mongoose.Schema({
-    // id: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -26,10 +21,6 @@ const promptSchema = new mongoose.Schema({
     },
     response: {
         type: String,
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
     }
 },{
     timestamps: true

@@ -24,11 +24,11 @@ const getCategoryById = async (req, res) => {
 };
 
 const createCategory = async (req, res) => {
-    const { name } = req.body;
-    if (!name)
-        return res.status(400).send("Name is required");
 
     try {
+        const { name } = req.body;
+        if (!name)
+            return res.status(400).send("Name is required");
         const newCategory = await Category.create({ name });
         res.status(201).json(newCategory);
     } catch (error) {
@@ -37,12 +37,12 @@ const createCategory = async (req, res) => {
 };
 
 const updateCategory = async (req, res) => {
-    const { id, name } = req.body;
     
-    if (!id || !name)
-        return res.status(400).send("id and name are required");
-
     try {
+        
+        const { id, name } = req.body;
+        if (!id || !name)
+            return res.status(400).send("id and name are required");
         const existingCategory = await Category.findById(id);
         if (!existingCategory)
             return res.status(404).send("Category not found");

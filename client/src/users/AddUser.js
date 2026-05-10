@@ -1,0 +1,67 @@
+import React from 'react';
+import { TextField, Button, Box, Typography, Container } from '@mui/material';
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+function AddUser() {
+
+  const navigate = useNavigate();
+  const [values,setValues]=useState({
+    username:"",
+    password:"",
+    phone:""
+    })
+
+  const handleSubmit =async (e) => {
+    e.preventDefault()
+    try{
+    const {data}=await axios.post("http://localhost:2500/api/users/register",
+        {   
+            username:values.username,
+            password:values.password,
+            phone:values.phone
+        })
+    if(!data)
+        alert("error")
+    setValues({
+    username:"",
+    password:"",
+    phone:""})
+
+    navigate("/lessons")
+
+    }catch(err){
+        console.error("Registration failed:", err);
+        alert("שגיאה בהתחברות לשרת");
+    }
+  };
+
+  return (
+    <Container maxWidth="xs">
+      <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography component="h1" variant="h5">
+          הרשמה למערכת
+        </Typography>
+        
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <TextField 
+          onChange={(e)=>{setValues({...values,username:e.target.value})}} value={values.username}  
+           margin="normal" required fullWidth  label="שם משתמש"/>
+          <TextField 
+          onChange={(e)=>{setValues({...values,password:e.target.value})}} value={values.password}
+          margin="normal" required fullWidth label="סיסמה" type="password"/>
+          <TextField 
+          onChange={(e)=>{setValues({...values,phone:e.target.value})}} value={values.phone}
+          margin="normal" fullWidth label="פלאפון" type="number"/>
+          <Button 
+          type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+             הרשמה
+          </Button>
+        </Box>
+      </Box>
+    </Container>
+  );
+}
+
+export default AddUser;
