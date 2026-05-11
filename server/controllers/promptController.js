@@ -28,7 +28,6 @@ const createPrompt = async (req, res) => {
     try {
         const { category_id, sub_category_id, prompt, response = "" } = req.body; 
         const user_id = req.user._id; 
-        
 
         if (!category_id || !sub_category_id )
             return res.status(400).send("category_id, sub_category_id are required");

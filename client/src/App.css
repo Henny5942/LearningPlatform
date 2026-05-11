@@ -41,3 +41,9 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  direction: rtl; /* חשוב מאוד ליישור תקין של טקסט בעברית */
+}
+

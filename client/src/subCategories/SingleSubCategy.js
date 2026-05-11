@@ -1,18 +1,28 @@
-import React, { useState } from 'react'
-import AddPrompt from '../prompts/AddPrompt';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Chip } from '@mui/material';
 
 const SingleSubCategy = ({ subCategory }) => {
-  const [showAddPrompt, setShowAddPrompt] = useState(false);
-  
+  const navigate = useNavigate();
+
+  const goToPromptPage = () => {
+    // אנחנו עוברים לדף חדש ומעבירים את האובייקט בתוך ה-state
+    navigate('/create-prompt', { state: { subCategory } });
+  };
+
   return (
-    <div>
-      <div onClick={() => setShowAddPrompt(true)}>
-        {subCategory.name}
-      </div>
+    <Chip 
+      label={subCategory.name} 
+      onClick={goToPromptPage}
+      sx={{ 
+        backgroundColor: '#f0f4ff', 
+        color: '#0066FF',
+        borderRadius: '10px',
+        cursor: 'pointer',
+        '&:hover': { backgroundColor: '#e0e9ff' }
+      }} 
+    />
+  );
+};
 
-      {showAddPrompt && <AddPrompt subCategory={subCategory} />}
-    </div>
-  )
-}
-
-export default SingleSubCategy
+export default SingleSubCategy;
