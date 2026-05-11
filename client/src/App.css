@@ -2,6 +2,10 @@
   text-align: center;
   direction: rtl;
 }
+*{
+  direction: rtl;
+  
+}
 
 .App-logo {
   height: 40vmin;

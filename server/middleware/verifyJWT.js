@@ -9,8 +9,10 @@ const verifyJWT=(req,res,next)=>{
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err,decoded)=>{
-            if(err)
-                return res.send("error")
+            if(err){
+                console.log("JWT Verification Error:", err.message);
+                return res.status(403).send("Forbidden")
+            }
             req.user=decoded
             next()
         }

@@ -23,37 +23,42 @@ const getPromptById = async (req, res) => {
     }
 };
 
+
 const createPrompt = async (req, res) => {
-    const { user_id, category_id, sub_category_id, prompt, response } = req.body;
-    if (!user_id || !category_id || !sub_category_id)
-        return res.status(400).send("user_id, category_id, and sub_category_id are required");
-    
     try {
-        const newPrompt = await Prompt.create({ user_id, category_id, sub_category_id, prompt, response });
+        const { category_id, sub_category_id, prompt, response = "" } = req.body; 
+        const user_id = req.user._id; 
+        
+
+        if (!category_id || !sub_category_id )
+            return res.status(400).send("category_id, sub_category_id are required");
+
+        const newPrompt = await Prompt.create({ 
+            user_id, category_id, sub_category_id, prompt, response 
+        });
         res.status(201).json(newPrompt);
     } catch (error) {
-        res.status(400).send("Error creating prompt");
+        res.status(400).send(error.message);
     }
 };
 
 const updatePrompt = async (req, res) => {
-    // שימוש בשם משתנה שונה כדי למנוע התנגשות עם שם המודל/השדה
-    const { id, user_id, category_id, sub_category_id, prompt: promptText, response } = req.body;
-    
-    if (!id || !user_id || !category_id || !sub_category_id)
-        return res.status(400).send("id, user_id, category_id, and sub_category_id are required");
+    const { id, category_id, sub_category_id, prompt, response } = req.body;
+    const user_id = req.user._id; 
 
+    if (!id || !category_id || !sub_category_id)
+        return res.status(400).send("id, category_id, and sub_category_id are required");
     try {
         const existingPrompt = await Prompt.findById(id);
         if (!existingPrompt)
             return res.status(404).send("Prompt not found");
-
-        existingPrompt.user_id = user_id;
+        if (existingPrompt.user_id.toString() !== user_id.toString()) {
+            return res.status(403).send("You are not authorized to update this prompt");
+        }
         existingPrompt.category_id = category_id;
         existingPrompt.sub_category_id = sub_category_id;
-        existingPrompt.prompt = promptText; // כאן השתמשנו בשם המתוקן
+        existingPrompt.prompt = prompt;
         existingPrompt.response = response;
-
         const updatedPrompt = await existingPrompt.save();
         res.json(updatedPrompt);
     } catch (error) {

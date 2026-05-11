@@ -9,10 +9,18 @@ const Nav = () => {
   return (
     <div>
       <nav>
-        <NavLink to="/addUser">התחברות</NavLink>
-        <NavLink to="/categories">נושאים</NavLink>
-        <NavLink to="/lessons">שיעורים</NavLink>
-        <NavLink to="/">דף הבית</NavLink>
+        <Button variant="contained" >
+          <NavLink to="/addUser" style={{ color: 'white' }}>התחברות</NavLink>
+        </Button>
+        <Button variant="contained">
+        <NavLink to="/categories" style={{ color: 'white' }}>נושאים</NavLink>
+        </Button>
+        <Button variant="contained">
+          <NavLink to="/lessons" style={{ color: 'white' }}>שיעורים</NavLink>
+        </Button>
+        <Button variant="contained" >
+          <NavLink to="/" style={{ color: 'white' }}>דף הבית</NavLink>
+        </Button>
       </nav>
     </div>
   );

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TextField, Button, Box, Typography, Container } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
-function AddUser() {
+const AddUser = () => {
 
   const navigate = useNavigate();
   const [values,setValues]=useState({
@@ -12,30 +13,23 @@ function AddUser() {
     password:"",
     phone:""
     })
+  const { login } = useContext(AuthContext);
 
   const handleSubmit =async (e) => {
-    e.preventDefault()
-    try{
-    const {data}=await axios.post("http://localhost:2500/api/users/register",
-        {   
-            username:values.username,
-            password:values.password,
-            phone:values.phone
-        })
-    if(!data)
-        alert("error")
-    setValues({
-    username:"",
-    password:"",
-    phone:""})
-
-    navigate("/lessons")
-
-    }catch(err){
-        console.error("Registration failed:", err);
-        alert("שגיאה בהתחברות לשרת");
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("http://localhost:2500/api/users/register", values);
+      console.log(data);
+      if (data.token) {
+        login(data.token);
+        alert("נרשמת בהצלחה!");
+        navigate("/lessons");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("שגיאה בהרשמה");
     }
-  };
+  }
 
   return (
     <Container maxWidth="xs">
