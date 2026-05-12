@@ -5,11 +5,11 @@ const getAll = async () => {
 };
 
 const getByUser = async (userId) => {
-    return await Prompt.find({ user_id: userId });
+    return await Prompt.find({ user_id: userId }).populate('category_id').populate('sub_category_id');
 };
 
 const getById = async (id) => {
-    return await Prompt.findById(id);
+    return await Prompt.findById(id).populate('category_id').populate('sub_category_id');
 };
 
 const create = async (prompt) => {

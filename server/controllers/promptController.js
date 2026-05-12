@@ -1,4 +1,5 @@
 const promptService = require('../services/promptService');
+const aiService = require('../services/aiService');
 
 const getAllPrompts = async (req, res) => {
     try {
@@ -15,7 +16,7 @@ const getPromptsFromUser = async (req, res) => {
     try {
         const prompts = await promptService.getByUser(req.user._id);
         if (!prompts || prompts.length === 0)
-            return res.send("No history found");
+            return res.status(404).send("No history found");
         res.json(prompts);
     } catch (error) {
         res.status(500).send("Error fetching prompts");
@@ -36,17 +37,20 @@ const getPromptById = async (req, res) => {
 
 const createPrompt = async (req, res) => {
     try {
-        const { category_id, sub_category_id, prompt, response = "" } = req.body; 
+        const { category_id, sub_category_id, prompt} = req.body; 
         const user_id = req.user._id; 
-
+        if (!req.user || !req.user._id)
+            return res.status(401).send("Unauthorized");
         if (!category_id || !sub_category_id )
             return res.status(400).send("category_id, sub_category_id are required");
 
+        const aiResponse = await aiService.getAICompletion(category_id, sub_category_id, prompt);
         const newPrompt = await promptService.create({ 
-            user_id, category_id, sub_category_id, prompt, response 
+            user_id, category_id, sub_category_id, prompt, response: aiResponse
         });
         if (!newPrompt) 
             return res.status(500).send("Failed to save the prompt to database");
+        
         res.status(201).json(newPrompt);
     } catch (error) {
         res.status(400).send(error.message);

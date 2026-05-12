@@ -5,7 +5,7 @@ import { Box, Typography, Divider } from '@mui/material'
 
 const AllSubCategories = ({ category }) => {
   const [subCategories, setSubCategories] = useState([])
-
+  // שליפת תתי הקטגוריות מהשרת בהתאם לקטגוריה שנבחרה
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
@@ -14,7 +14,7 @@ const AllSubCategories = ({ category }) => {
           setSubCategories(data.filter(sub => sub.category_id === category._id))
       } catch (err) {
         console.error(err);
-        alert("שגיאה בהתחברות לשרת");
+        console.log("Error fetching subcategories:", err);
       }
     }
       if (category?._id)
@@ -22,18 +22,14 @@ const AllSubCategories = ({ category }) => {
     }, [category])
   return (
     <Box sx={{ mt: 2, textAlign: 'right' }}>
-      {/* קו מפריד עדין וכותרת קטנה */}
+       {/* קו מפריד וכותרת   */}
       <Divider sx={{ mb: 2, borderStyle: 'dashed' }} />
       <Typography variant="caption" sx={{ color: '#6C757D', fontWeight: 'bold', mb: 1, display: 'block' }}>
         בחר תת קטגוריה ב{category.name}:
       </Typography>
 
-      {/* קונטיינר לתתי הקטגוריות - מסודר בשורה שמתקפלת (Wrap) */}
-      <Box sx={{ 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        gap: '10px', 
-        justifyContent: 'flex-start' 
+      {/* הצגת תתי הקטגוריות */}
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'flex-start' 
       }}>
         {subCategories.map(subCategory => (
           <SingleSubCategy key={subCategory._id} subCategory={subCategory} />

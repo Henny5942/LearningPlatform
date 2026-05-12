@@ -18,20 +18,22 @@ const AddUser = () => {
   const handleSubmit =async (e) => {
     e.preventDefault();
     try {
+      //הוספת משתמש
       const { data } = await axios.post("http://localhost:2500/api/users/register", values);
       console.log(data);
       if (data.token) {
+        //שמירת הטוקן
         login(data.token);
-        alert("נרשמת בהצלחה!");
-        navigate("/lessons");
+        navigate("/categories"); //מעבר לדף של הקטגוריות
       }
     } catch (err) {
       console.error(err);
-      alert("שגיאה בהרשמה");
+      alert("שם המשתמש כבר קיים");
     }
   }
 
   return (
+    //טופס לרישום למערכת
     <Container maxWidth="xs">
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography component="h1" variant="h5">

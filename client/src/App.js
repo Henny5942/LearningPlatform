@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthContext';
 import Response from './pages/Response';
 import AddPrompt from './pages/AddPrompt';
 import History from './pages/History';
+import Login from './pages/Login';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route index element={<HomePage />}/>
             <Route path='addUser' element={<AddUser />}/>
+            <Route path='login' element={<Login />} />
             <Route path='categories' element={<AllCategories />}/>
             <Route path="/create-prompt" element={<AddPrompt />} />
             <Route path='users' element={<p>Users page</p>}/>
