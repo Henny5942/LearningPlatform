@@ -10,16 +10,13 @@ const Nav = () => {
     <div>
       <nav style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '10px' }}>
-        <Button className='navB' variant="contained" >
-          <NavLink to="/" style={{ color: 
-            'white' }}>דף הבית</NavLink>
-        </Button>
-        <Button className='navB'variant="contained">
-        <NavLink to="/categories" style={{ color: 'white' }}>נושאים</NavLink>
-        </Button>
-        <Button className='navB'variant="contained">
-          <NavLink to="/lessons" style={{ color: 'white' }}>שיעורים</NavLink>
-        </Button>
+       
+          <NavLink to="/" >דף הבית</NavLink>
+        
+        <NavLink to="/categories" >נושאים</NavLink>
+       
+          <NavLink to="/history" >היסטוריה</NavLink>
+       
         </div>
         <div>
         <Button className='navB'variant="contained" >

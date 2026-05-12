@@ -5,20 +5,21 @@ import axios from 'axios'
 
 const AllCategories = () => {
     const [categories,setCategories]= useState([])
-    try{
+    
     const fetchCategories = async ()=>{
-        const {data}= await axios.get("http://localhost:2500/api/categories/")
-        if(data)
-            setCategories(data.sort((a,b)=>a._id-b._id))
-        }
+        try{
+            const {data}= await axios.get("http://localhost:2500/api/categories/")
+            if(data)
+                setCategories(data.sort((a,b)=>a._id-b._id))
+        }catch(err){
+            console.error(err);
+            alert("שגיאה בהתחברות לשרת");
+    }
+}
     useEffect(()=>{
         fetchCategories()
     },[])
-    }catch(err){
-        console.error(err);
-        alert("שגיאה בהתחברות לשרת");
-    }
-   
+
   return (
     /* הוספתי כאן עטיפה של Flexbox כדי שהכרטיסים יעמדו אחד ליד השני */
     <div style={{ 

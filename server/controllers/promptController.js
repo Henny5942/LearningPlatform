@@ -11,6 +11,16 @@ const getAllPrompts = async (req, res) => {
     }
 };
 
+const getPromptsFromUser = async (req, res) => {
+    try {
+        const prompts = await Prompt.find({ user_id: req.user._id });
+        if (!prompts || prompts.length === 0)
+            return res.send("No history found");
+        res.json(prompts);
+    } catch (error) {
+        res.status(500).send("Error fetching prompts");
+    }
+};
 const getPromptById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -80,4 +90,4 @@ const deletePrompt = async (req, res) => {
     }
 };
 
-module.exports = { getAllPrompts, getPromptById, createPrompt, updatePrompt, deletePrompt };
+module.exports = { getAllPrompts,getPromptsFromUser, getPromptById, createPrompt, updatePrompt, deletePrompt };
