@@ -1,8 +1,8 @@
-const SubCategory = require('../models/SubCategory');
+const subCategoryService = require('../services/subCategoryService');
 
 const getAllSubCategories = async (req, res) => {
     try {
-        const subCategories = await SubCategory.find();
+        const subCategories = await subCategoryService.getAll();
         res.json(subCategories);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -11,9 +11,9 @@ const getAllSubCategories = async (req, res) => {
 
 const getSubCategoryById = async (req, res) => {
     try {
-        const subCategory = await SubCategory.findById(req.params.id);
+        const subCategory = await subCategoryService.getById(req.params.id);
         if (!subCategory) {
-            return res.status(404).json({ message: 'SubCategory not found' });
+            return res.status(404).send('SubCategory not found');
         }
         res.json(subCategory);
     } catch (error) {
@@ -24,9 +24,9 @@ const getSubCategoryById = async (req, res) => {
 const createSubCategory = async (req, res) => {
     try {
         const { name,category_id } = req.body;
-        const subCategory = await SubCategory.create({ name, category_id });
+        const subCategory = await subCategoryService.create(name, category_id);
         if(!subCategory) {
-            return res.status(400).json({ message: 'Error creating subcategory' });
+            return res.status(400).send('Error creating subcategory');
         }
         res.status(201).json(subCategory);
     } catch (error) {
@@ -37,14 +37,11 @@ const createSubCategory = async (req, res) => {
 const updateSubCategory = async (req, res) => {
     try {
         const {id, name, category_id } = req.body;
-        const subCategory = await SubCategory.findById(id);
+        const subCategory = await subCategoryService.update(id, name, category_id);
         if (!subCategory) {
-            return res.status(404).json({ message: 'SubCategory not found' });
+            return res.status(404).send('SubCategory not found');
         }
-        subCategory.name = name;
-        subCategory.category_id = category_id;
-        const updatedSubCategory = await subCategory.save();
-        res.json(updatedSubCategory);
+        res.json(subCategory);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -52,9 +49,9 @@ const updateSubCategory = async (req, res) => {
 
 const deleteSubCategory = async (req, res) => {
     try {
-        const subCategory = await SubCategory.findByIdAndDelete(req.params.id);
-        if (!subCategory) {
-            return res.status(404).json({ message: 'SubCategory not found' });
+        const success = await subCategoryService.remove(req.params.id);
+        if (!success) {
+            return res.status(404).send('SubCategory not found');
         }
         res.json({ message: 'SubCategory deleted successfully' });
     } catch (error) {
