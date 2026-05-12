@@ -3,32 +3,52 @@ import Button from '@mui/material/Button';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
-
 const Nav = () => {
-  const { token, logout } = useContext(AuthContext);
+  // שלפנו את isAdmin ישירות מהקונטקסט
+  const { token, logout, isAdmin } = useContext(AuthContext);
+
   return (
     <div>
-      <nav style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          {/* כפתורי הניווט הראשיים */}
+      <nav style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '20px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <NavLink to="/" >דף הבית</NavLink>
           <NavLink to="/categories" >נושאים</NavLink>
           <NavLink to="/history" >היסטוריה</NavLink>
-        </div>
-        <div style={{display:'flex', gap:20}}>
-          <Button className='navB'variant="contained">
-            {token ? (
-          <Button onClick={logout} style={{ color: 'white',fontSize:15 }}>יציאה מהמערכת</Button>
-        ) : (
-          <NavLink to="/login" style={{ color: 'white',fontSize:15  }}>כניסה למערכת</NavLink>
+          
+          {/* מציג את לוח הבקרה רק אם המשתמש הוא אדמין */}
+          {isAdmin && (
+            <NavLink to="/admin">
+              לוח בקרה
+            </NavLink>
           )}
-          </Button>
-          {/* כפתור התחברות למערכת */}
-        <Button className='navB'variant="contained" >
-          <NavLink to="/addUser" style={{ color: 'white',fontSize:15  }}>יצירת חשבון</NavLink>
-        </Button>
+        </div>
 
-
+        <div style={{ display: 'flex', gap: 10 }}>
+          {token ? (
+            // אם מחובר: מציג כפתור יציאה
+            <Button 
+              className='navB' 
+              variant="contained" 
+              onClick={logout} 
+              style={{ color: 'white', fontSize: 15 }}>
+              יציאה מהמערכת
+            </Button>
+          ) : (
+            // אם לא מחובר: מציג כפתורי כניסה והרשמה
+            <>
+              <Button className='navB' variant="contained">
+                <NavLink to="/login" style={{ color: 'white', fontSize: 15, textDecoration: 'none' }}>
+                  כניסה למערכת
+                </NavLink>
+              </Button>
+              
+              <Button className='navB' variant="contained">
+                <NavLink to="/addUser" style={{ color: 'white', fontSize: 15, textDecoration: 'none' }}>
+                  יצירת חשבון
+                </NavLink>
+              </Button>
+            </>
+          )}
         </div>
       </nav>
     </div>

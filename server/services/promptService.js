@@ -1,7 +1,7 @@
 const Prompt = require('../models/Prompt');
 
 const getAll = async () => {
-    return await Prompt.find();
+    return await Prompt.find().populate('category_id').populate('sub_category_id');;
 };
 
 const getByUser = async (userId) => {

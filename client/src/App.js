@@ -9,6 +9,7 @@ import Response from './pages/Response';
 import AddPrompt from './pages/AddPrompt';
 import History from './pages/History';
 import Login from './pages/Login';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path='users' element={<p>Users page</p>}/>
             <Route path='history' element={<History />}/>
             <Route path='response/:id' element={<Response />}/>
+            <Route path='admin' element={<AdminDashboard />}/>
           </Route>
         </Routes>
       </Router>

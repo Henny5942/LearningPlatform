@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 
 export const AuthContext = createContext();
 
@@ -15,9 +16,22 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem("token");
   };
+  // פונקציית בדיקה אם הוא מנהל
+  const checkIsAdmin = () => {
+    if (!token) return false;
+    try {
+      const decoded = jwtDecode(token);
+      //id של המנהל
+      const adminId = "6a03663b18e73cfca9b191ac"; 
+      return decoded._id === adminId; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return false;
+    }
+  }
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout, isAdmin: checkIsAdmin() }}>
       {children}
     </AuthContext.Provider>
   );
