@@ -4,17 +4,17 @@ import { jwtDecode } from "jwt-decode";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(sessionStorage.getItem("token"));
 
   // שליפת הטוקן מהלוקל סטורג' אם קיים, כדי לשמור על מצב ההתחברות גם לאחר רענון הדף
   const login = (newToken) => {
     setToken(newToken);
-    localStorage.setItem("token", newToken);
+    sessionStorage.setItem("token", newToken);
   };
  // פונקציה להתנתקות - מחיקה של הטוקן מהסטייט ומהלוקל סטורג'
   const logout = () => {
     setToken(null);
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
   };
   // פונקציית בדיקה אם הוא מנהל
   const checkIsAdmin = () => {

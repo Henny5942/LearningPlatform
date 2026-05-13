@@ -1,18 +1,25 @@
 import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const Nav = () => {
-  // שלפנו את isAdmin ישירות מהקונטקסט
+  // משתנים מהקונטקסט
   const { token, logout, isAdmin } = useContext(AuthContext);
+  const navigate= useNavigate();
+
+  const buttonLogout=()=>{
+    navigate('/');
+    logout()
+    
+  }
 
   return (
     <div>
       <nav style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '20px', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <NavLink to="/" >דף הבית</NavLink>
-          <NavLink to="/categories" >נושאים</NavLink>
+          <NavLink to="/categories" >לוח למידה</NavLink>
           <NavLink to="/history" >היסטוריה</NavLink>
           
           {/* מציג את לוח הבקרה רק אם המשתמש הוא אדמין */}
@@ -29,7 +36,7 @@ const Nav = () => {
             <Button 
               className='navB' 
               variant="contained" 
-              onClick={logout} 
+              onClick={buttonLogout} 
               style={{ color: 'white', fontSize: 15 }}>
               יציאה מהמערכת
             </Button>
