@@ -1,8 +1,13 @@
 const isAdmin = (req, res, next) => {
-    const adminId = "6a03663b18e73cfca9b191ac"; // //id של המנהל
-    if (req.user && req.user.userId === adminId) {
+  // בדיקה האם קיים אובייקט משתמש והאם שדה ה-isAdmin הוא אמת
+    if (req.user && req.user.isAdmin) {
         next();
-    } else {
-        res.status(403).send("גישה למנהלים בלבד");
+    }else{
+        return res.status(403).json({
+    message: "Access denied. Admins only.",
+  });
     }
+  
 };
+
+module.exports = isAdmin;

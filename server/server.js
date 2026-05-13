@@ -5,6 +5,10 @@ const corsOptions=require("./config/corsOptions")
 const connectDB = require('./config/dbConn');
 const { default: mongoose } = require('mongoose');
 const PORT = process.env.PORT || 4000;
+const seedCategories= require("./seed/categories");
+const seedSubCategories= require("./seed/sub_categories");
+const Categories =require("./models/Category")
+
 
 const app = express();
 connectDB();
@@ -19,7 +23,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-mongoose.connection.once('open',()=>{
+mongoose.connection.once('open',async()=>{
+   const count = await Categories.countDocuments();
+    if (count === 0) {
+    await seedCategories();
+    await seedSubCategories();
+  }
   console.log('Connected to MongoDB')
   app.listen(PORT, () => console.log(`server running on ${PORT}`))
 })
