@@ -21,6 +21,8 @@ and paste the following content into it (with your details):
 PORT= 2500
 DATABASE_URI= your_mongodb_connection_string
 ACCESS_TOKEN_SECRET=your_jwt_secret_key
+ADMIN_NAME=Admin
+ADMIN_PHONE=0500000000
 
 
 ###Running the Project
@@ -38,17 +40,29 @@ npm start
 
 The site will open at:http://localhost:3000
 
+###Database Seeder - Learning Platform
+This project includes automated scripts for seeding initial data into the MongoDB database. These scripts ensure the system starts with pre-defined categories and sub-categories in an organized manner.
+
+What do the scripts do?
+1. Admin Seeding: Creates an initial admin user based on the credentials defined in the .env file.
+2. Categories Seeding: Seeds the main list of learning categories.
+3. Sub-Categories Seeding: Creates sub-categories linked to their respective parent categories.
+
+Execution Instructions
+The scripts are configured to run automatically when the server starts (if the database is empty). However, they can also be run manually as standalone files:
+
+#Bash Categories script
+node seed/categories.js
+
+#Bash sub-Categories script
+node seed/sub_categories.js
 
 
-###Admin Access (How to Login as Admin)
+###Admin Access 
 
 Admin Features:
 Access to the Admin Dashboard.
 Ability to View all users and their complete prompt history.
-
-To access admin features (managing categories and viewing all prompts), use the following credentials:
-username: admin
-Password: admin1234
 
 
 
