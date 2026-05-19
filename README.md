@@ -23,7 +23,7 @@ DATABASE_URI= your_mongodb_connection_string
 ACCESS_TOKEN_SECRET=your_jwt_secret_key
 ADMIN_NAME=Admin
 ADMIN_PHONE=0500000000
-
+AI_KEY=your_openai_api_key
 
 ###Running the Project
 
@@ -95,5 +95,5 @@ Backend:
 - Categories and sub-categories are stored in the database
 - Users must log in before creating prompts
 - JWT authentication is used for protected routes
-- AI responses are generated using a mock response.
+- AI responses are generated in real-time using the official API connected via the environment variables.
 - Each prompt is connected to a category and sub-category
