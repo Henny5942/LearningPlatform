@@ -37,23 +37,28 @@ const getPromptById = async (req, res) => {
 
 const createPrompt = async (req, res) => {
     try {
-        const { category_id, sub_category_id, prompt} = req.body; 
-        const user_id = req.user._id; 
+        const { category_id, sub_category_id, prompt } = req.body;
+        const user_id = req.user._id;
         if (!req.user || !req.user._id)
             return res.status(401).send("Unauthorized");
-        if (!category_id || !sub_category_id )
-            return res.status(400).send("category_id, sub_category_id are required");
+        if (!category_id || !sub_category_id)
+            return res.status(400).send("category_id and sub_category_id are required");
+        if (!prompt || typeof prompt !== 'string' || !prompt.trim())
+            return res.status(400).send("Prompt text is required");
 
         const aiResponse = await aiService.getAICompletion(category_id, sub_category_id, prompt);
-        const newPrompt = await promptService.create({ 
+        const newPrompt = await promptService.create({
             user_id, category_id, sub_category_id, prompt, response: aiResponse
         });
-        if (!newPrompt) 
+        if (!newPrompt)
             return res.status(500).send("Failed to save the prompt to database");
-        
+
         res.status(201).json(newPrompt);
     } catch (error) {
-        res.status(400).send(error.message);
+        console.error('Prompt creation error:', error);
+        const isAIError = error.message?.includes('Unable to connect to the AI service') || error.message?.includes('Failed to generate AI lesson');
+        const status = isAIError ? 502 : 400;
+        res.status(status).send(error.message);
     }
 };
 

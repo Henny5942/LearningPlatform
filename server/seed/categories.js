@@ -18,11 +18,12 @@ const seedCategories = async () => {
     await mongoose.connect(mongoUri);
 
     const categories = [
-      "Environment",
-      "MedTech",
-      "Space",
-      "Physics",
-      "Biology",
+      "איכות הסביבה",
+      "רפואה וטכנולוגיה",
+      "חלל ואסטרונומיה",
+     "פיזיקה וכימיה",
+      "מדעי החיים",
+      "כדור הארץ"
     ];
 
     // מעבר על כל קטגוריה ועדכון/יצירה שלה (Upsert)
@@ -46,5 +47,5 @@ const seedCategories = async () => {
 // הרצת הפונקציה במידה ומריצים את הקובץ ישירות
 seedCategories();
 
-// ייצוא הפונקציה לשימוש במקומות אחרים (בתחביר CommonJS)
-module.exports = { seedCategories };
+// ייצוא הפונקציה לשימוש במקומות אחרים (ייצוא ישיר לפונקציה)
+module.exports = seedCategories;

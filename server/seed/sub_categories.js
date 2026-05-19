@@ -19,11 +19,12 @@ const seedSubCategories = async () => {
     await mongoose.connect(mongoUri);
 
     const data = {
-      Environment: ["Ecosystems","Resources","Sustainability"],
-      MedTech: ["Body Systems", "Med-Innovation", "Wellness"],
-      Space: ["Solar System", "Celestial Bodies", "SpaceTech"],
-      Physics: ["Organic", "Inorganic", "Analytical"],
-      Biology: ["Fauna", "Flora", "Anatomy"],
+      "איכות הסביבה": ["מערכות אקולוגיות", "משאבי טבע", "קיימות ומיחזור"],
+      "רפואה וטכנולוגיה": ["מערכות הגוף", "חדשנות רפואית", "בריאות ותזונה"],
+      "חלל ואסטרונומיה": ["מערכת השמש", "גלקסיות וגרמי שמיים", "חקר החלל וטכנולוגיה"],
+      "פיזיקה וכימיה": ["מבנה החומר", "אנרגיה וכוחות", "אופטיקה ואור"],
+      "מדעי החיים": ["עולם החי", "עולם הצומח", "גוף האדם"],
+      "כדור הארץ":["מבנה הקרקע","מזג אוויר","חקר הימים"]
     };
 
     for (const categoryName in data) {
@@ -57,5 +58,5 @@ const seedSubCategories = async () => {
 // הרצת הפונקציה
 seedSubCategories();
 
-// ייצוא הפונקציה
-module.exports = { seedSubCategories };
+// ייצוא הפונקציה (ייצוא ישיר לפונקציה)
+module.exports = seedSubCategories;
